@@ -8,6 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
+import { useState } from "react"
 
 export default function CashBack() {
   const { data: session } = useSession()
@@ -15,6 +16,11 @@ export default function CashBack() {
     redirect("/login")
     return null
   }
+
+  const [cashBacks, setCashBacks] = useState()
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState("")
+  const [available, setAvaliable] = useState(false)
 
   return (
     <main className='w-full'>
