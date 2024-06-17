@@ -19,15 +19,29 @@ export default function Shop() {
 
   const [shops, setShops] = useState<ShopJson>()
   const [page, setPage] = useState(1)
+  const [search, setSearch] = useState("")
+  const [available, setAvaliable] = useState(false)
 
   const fetchShops = async () => {
-    const shopsFromFetch = await getShops(session.user.token)
+    setAvaliable(false)
+    const shopsFromFetch = await getShops(
+      session.user.token,
+      `page=${page}&search=${search}`
+    )
     setShops(shopsFromFetch)
+    setAvaliable(true)
   }
 
   useEffect(() => {
     fetchShops()
-  }, [])
+  }, [page])
+
+  const handleChangePage = async (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value)
+  }
 
   return (
     <main className='w-full'>
@@ -42,8 +56,13 @@ export default function Shop() {
             size='small'
             label='ค้นหา'
             variant='outlined'
+            onChange={(e) => {
+              setSearch(e.target.value)
+            }}
           />
-          <Button variant='contained'>ค้นหา</Button>
+          <Button variant='contained' onClick={fetchShops}>
+            ค้นหา
+          </Button>
         </div>
         <Link href='/shop/create'>
           <Fab
@@ -58,7 +77,7 @@ export default function Shop() {
       </div>
 
       {/* Table */}
-      <ShopTable />
+      <ShopTable shops={shops?.shops} available={available} />
 
       {/* Pagination */}
       <div className='w-full flex justify-center mt-5'>
@@ -66,6 +85,9 @@ export default function Shop() {
           count={shops?.pagination?.last}
           shape='rounded'
           color='primary'
+          siblingCount={2}
+          page={page}
+          onChange={handleChangePage}
         />
       </div>
     </main>
