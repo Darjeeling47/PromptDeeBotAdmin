@@ -77,7 +77,7 @@ export default function Shop() {
       </div>
 
       {/* Table */}
-      <ShopTable shops={shops?.shops} available={available} />
+      <ShopTable shops={shops?.shops} available={available} session={session} />
 
       {/* Pagination */}
       <div className='w-full flex justify-center mt-5'>

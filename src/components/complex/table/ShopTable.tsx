@@ -1,14 +1,26 @@
+"use client"
+
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import SettingButton from "../button/SettingButton"
 import { Shop } from "@/interface/shop"
+import deleteShop from "@/libs/shops/deleteShop"
+import { Session, getServerSession } from "next-auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 export default function ShopTable({
   shops,
   available,
+  session,
 }: {
   shops?: Shop[]
   available?: boolean
+  session: Session
 }) {
+  const handleDeleteShop = async (sid: string) => {
+    await deleteShop(session.user.token, sid)
+    alert("ลบข้อมูลแล้วกรุณารีเพจ")
+  }
+
   return (
     <table className='w-full table-auto border-collapse'>
       <thead className='text-left !font-semibold'>
@@ -30,7 +42,11 @@ export default function ShopTable({
                 <td className='py-3'>{row.province}</td>
                 <td className='py-3'>{row.score}</td>
                 <td className='w-20'>
-                  <SettingButton editOption deleteOption />
+                  <SettingButton
+                    editOption
+                    deleteOption
+                    deleteFunction={() => handleDeleteShop(row._id)}
+                  />
                 </td>
               </tr>
             ))

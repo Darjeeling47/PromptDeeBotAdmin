@@ -8,10 +8,16 @@ export default function SettingButton({
   viewOption,
   editOption,
   deleteOption,
+  viewFunction,
+  editFunction,
+  deleteFunction,
 }: {
   viewOption?: boolean
   editOption?: boolean
   deleteOption?: boolean
+  viewFunction?: Function
+  editFunction?: Function
+  deleteFunction?: Function
 }) {
   const [isSpan, setIsSpan] = useState(false)
   return (
@@ -25,23 +31,35 @@ export default function SettingButton({
         {isSpan ? (
           <div className='bg-white absolute bg-cgr-white py-5 rounded-lg shadow-lg mt-10 flex flex-col gap-y-4 z-[200] border border-gray-50'>
             {viewOption ? (
-              <Link href={"#"} className='px-7'>
+              <div
+                className='px-7 cursor-pointer'
+                onClick={() => {
+                  viewFunction ? viewFunction() : ""
+                }}>
                 <i className='bi bi-eye-fill mr-2'></i>View
-              </Link>
+              </div>
             ) : (
               ""
             )}
             {editOption ? (
-              <Link href={"#"} className='px-7'>
+              <div
+                className='px-7 cursor-pointer'
+                onClick={() => {
+                  editFunction ? editFunction() : ""
+                }}>
                 <i className='bi bi-pen-fill mr-2'></i>Edit
-              </Link>
+              </div>
             ) : (
               ""
             )}
             {deleteOption ? (
-              <Link href={"#"} className='px-7'>
+              <div
+                className='px-7 cursor-pointer'
+                onClick={() => {
+                  deleteFunction ? deleteFunction() : ""
+                }}>
                 <i className='bi bi-trash-fill mr-2'></i>Delete
-              </Link>
+              </div>
             ) : (
               ""
             )}
