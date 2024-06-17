@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import SettingButton from "../button/SettingButton"
 
-export default function ShopTable() {
+export default function CashBackTable() {
   function createData(
     name: string,
     calories: number,
@@ -31,8 +31,9 @@ export default function ShopTable() {
         <tr className='bg-gray-100 border'>
           <th className='py-3 pl-3'>ชื่อร้านค้า</th>
           <th className='py-3'>รหัสร้านค้า</th>
-          <th className='py-3'>จังหวัด</th>
-          <th className='py-3'>คะแนน</th>
+          <th className='py-3'>ราคารวม</th>
+          <th className='py-3'>รอบวันที่</th>
+          <th className='py-3'>วันโอน</th>
           <th className='py-3'></th>
         </tr>
       </thead>
@@ -42,9 +43,10 @@ export default function ShopTable() {
             <td className='py-3 pl-3'>{row.name}</td>
             <td className='py-3'>{row.calories}</td>
             <td className='py-3'>{row.fat}</td>
-            <td className='py-3'>{row.carbs}</td>
+            <td className='py-3'>{row.fat}</td>
+            <td className='py-3'>{row.fat}</td>
             <td className='w-20'>
-              <SettingButton editOption deleteOption />
+              <SettingButton viewOption editOption deleteOption />
             </td>
           </tr>
         ))}

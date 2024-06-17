@@ -4,7 +4,15 @@ import { Button } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
 
-export default function SettingButton() {
+export default function SettingButton({
+  viewOption,
+  editOption,
+  deleteOption,
+}: {
+  viewOption?: boolean
+  editOption?: boolean
+  deleteOption?: boolean
+}) {
   const [isSpan, setIsSpan] = useState(false)
   return (
     <>
@@ -16,12 +24,27 @@ export default function SettingButton() {
         </div>
         {isSpan ? (
           <div className='bg-white absolute bg-cgr-white py-5 rounded-lg shadow-lg mt-10 flex flex-col gap-y-4 z-[200] border border-gray-50'>
-            <Link href={"#"} className='px-7'>
-              <i className='bi bi-pen-fill mr-2'></i>Edit
-            </Link>
-            <Link href={"#"} className='px-7'>
-              <i className='bi bi-trash-fill mr-2'></i>Delete
-            </Link>
+            {viewOption ? (
+              <Link href={"#"} className='px-7'>
+                <i className='bi bi-eye-fill mr-2'></i>View
+              </Link>
+            ) : (
+              ""
+            )}
+            {editOption ? (
+              <Link href={"#"} className='px-7'>
+                <i className='bi bi-pen-fill mr-2'></i>Edit
+              </Link>
+            ) : (
+              ""
+            )}
+            {deleteOption ? (
+              <Link href={"#"} className='px-7'>
+                <i className='bi bi-trash-fill mr-2'></i>Delete
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""

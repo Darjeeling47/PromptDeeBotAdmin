@@ -4,6 +4,8 @@ import "./globals.css"
 import Navbar from "@/components/navbar/Navbar"
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "@/utils/muiTheme"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 
 const prompt = Prompt({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
