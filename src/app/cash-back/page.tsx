@@ -6,8 +6,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
 
 export default function CashBack() {
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
+
   return (
     <main className='w-full'>
       {/* Header */}
@@ -40,7 +48,7 @@ export default function CashBack() {
             aria-label='add'
             size='medium'
             variant='extended'
-            className='z-[0]'>
+            className='!z-[0]'>
             สร้างใบเสร็จ<i className='bi bi-plus-lg text-xl ml-2'></i>
           </Fab>
         </Link>

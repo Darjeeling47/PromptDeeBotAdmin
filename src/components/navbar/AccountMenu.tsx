@@ -13,7 +13,7 @@ export default function AccountMenu() {
   useEffect(() => {
     if (session) {
       setLoginTitle(session.user.email)
-      console.log("session user = " + session.user)
+      // console.log("session user = " + session.user)
     } else {
       setLoginTitle("Login")
     }

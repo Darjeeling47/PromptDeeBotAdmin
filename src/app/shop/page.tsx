@@ -1,10 +1,34 @@
 "use client"
 
 import ShopTable from "@/components/complex/table/ShopTable"
+import { ShopJson } from "@/interface/shop"
+import getShops from "@/libs/shops/getShops"
 import { Button, Fab, Pagination, TextField } from "@mui/material"
+import { get } from "http"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import { use, useEffect, useState } from "react"
 
 export default function Shop() {
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
+
+  const [shops, setShops] = useState<ShopJson>()
+  const [page, setPage] = useState(1)
+
+  const fetchShops = async () => {
+    const shopsFromFetch = await getShops(session.user.token)
+    setShops(shopsFromFetch)
+  }
+
+  useEffect(() => {
+    fetchShops()
+  }, [])
+
   return (
     <main className='w-full'>
       {/* Header */}
@@ -27,7 +51,7 @@ export default function Shop() {
             aria-label='add'
             size='medium'
             variant='extended'
-            className='z-[0]'>
+            className='!z-[0]'>
             สร้างร้านค้า<i className='bi bi-plus-lg text-xl ml-2'></i>
           </Fab>
         </Link>
@@ -38,7 +62,11 @@ export default function Shop() {
 
       {/* Pagination */}
       <div className='w-full flex justify-center mt-5'>
-        <Pagination count={10} shape='rounded' color='primary' />
+        <Pagination
+          count={shops?.pagination?.last}
+          shape='rounded'
+          color='primary'
+        />
       </div>
     </main>
   )

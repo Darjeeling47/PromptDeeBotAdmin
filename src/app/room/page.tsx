@@ -2,9 +2,17 @@
 
 import RoomTable from "@/components/complex/table/RoomTable"
 import { Button, Fab, Pagination, TextField } from "@mui/material"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
 export default function Room() {
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
+
   return (
     <main className='w-full'>
       {/* Header */}
