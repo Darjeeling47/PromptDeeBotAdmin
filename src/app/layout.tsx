@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
-import { Inter, Prompt } from "next/font/google"
+import { Prompt } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar/Navbar"
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "@/utils/muiTheme"
-import { LocalizationProvider } from "@mui/x-date-pickers"
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import NextAuthProvider from "@/providers/NextAuthProvider"
 
 const prompt = Prompt({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -17,11 +18,13 @@ export const metadata: Metadata = {
   description: "PromptDee LineBot System",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang='en'>
       <head>
@@ -33,10 +36,12 @@ export default function RootLayout({
         />
       </head>
       <body className={prompt.className}>
-        <ThemeProvider theme={theme}>
-          <Navbar />
-          <main className='container mx-auto pt-12 mb-10'>{children}</main>
-        </ThemeProvider>
+        <NextAuthProvider session={session}>
+          <ThemeProvider theme={theme}>
+            <Navbar />
+            <main className='container mx-auto pt-12 mb-10'>{children}</main>
+          </ThemeProvider>
+        </NextAuthProvider>
       </body>
     </html>
   )

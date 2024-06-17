@@ -7,7 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import Link from "next/link"
 
-export default function Shop() {
+export default function CashBack() {
   return (
     <main className='w-full'>
       {/* Header */}
@@ -34,14 +34,14 @@ export default function Shop() {
           </LocalizationProvider>
           <Button variant='contained'>ค้นหา</Button>
         </div>
-        <Link href='/shop/create'>
+        <Link href='/cash-back/create'>
           <Fab
             color='primary'
             aria-label='add'
             size='medium'
             variant='extended'
             className='z-[0]'>
-            สร้างร้านค้า<i className='bi bi-plus-lg text-xl ml-2'></i>
+            สร้างใบเสร็จ<i className='bi bi-plus-lg text-xl ml-2'></i>
           </Fab>
         </Link>
       </div>

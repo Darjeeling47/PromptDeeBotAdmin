@@ -1,8 +1,8 @@
 "use client"
 
 import { Button, TextField } from "@mui/material"
+import { signIn } from "next-auth/react"
 import { useState } from "react"
-// import { signIn } from "next-auth/react"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -17,15 +17,15 @@ export default function Login() {
   }
 
   const handleLogin = () => {
-    // if (email && password) {
-    //   signIn("credentials", {
-    //     email: email,
-    //     password: password,
-    //     callbackUrl: "/",
-    //   })
-    // } else {
-    //   alert("Please provide all required information")
-    // }
+    if (email && password) {
+      signIn("credentials", {
+        email: email,
+        password: password,
+        callbackUrl: "/",
+      })
+    } else {
+      alert("Please provide all required information")
+    }
   }
 
   return (
@@ -48,7 +48,9 @@ export default function Login() {
             variant='standard'
             onChange={handleChangePassword}
           />
-          <Button variant='contained'>Login</Button>
+          <Button variant='contained' onClick={handleLogin}>
+            Login
+          </Button>
         </div>
       </div>
     </main>

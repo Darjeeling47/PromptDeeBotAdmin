@@ -4,7 +4,7 @@ import RoomTable from "@/components/complex/table/RoomTable"
 import { Button, Fab, Pagination, TextField } from "@mui/material"
 import Link from "next/link"
 
-export default function Shop() {
+export default function Room() {
   return (
     <main className='w-full'>
       {/* Header */}
