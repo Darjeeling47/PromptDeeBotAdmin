@@ -1,29 +1,22 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import SettingButton from "../button/SettingButton"
+import { CashBack } from "@/interface/cashBack"
+import { Session } from "next-auth"
+import deleteCashBack from "@/libs/cashBacks/deleteCashBack"
 
-export default function CashBackTable() {
-  function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number
-  ) {
-    return { name, calories, fat, carbs, protein }
+export default function CashBackTable({
+  cashBacks,
+  available,
+  session,
+}: {
+  cashBacks?: CashBack[]
+  available?: boolean
+  session: Session
+}) {
+  const handleDeleteCashBack = async (cbid: string) => {
+    await deleteCashBack(session.user.token, cbid)
+    alert("ลบข้อมูลแล้วกรุณารีเพจ")
   }
-
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ]
 
   return (
     <table className='w-full table-auto border-collapse'>
@@ -38,18 +31,43 @@ export default function CashBackTable() {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <tr key={row.name} className='border'>
-            <td className='py-3 pl-3'>{row.name}</td>
-            <td className='py-3'>{row.calories}</td>
-            <td className='py-3'>{row.fat}</td>
-            <td className='py-3'>{row.fat}</td>
-            <td className='py-3'>{row.fat}</td>
-            <td className='w-20'>
-              <SettingButton viewOption editOption deleteOption />
+        {available ? (
+          cashBacks && cashBacks.length > 0 ? (
+            cashBacks.map((row) => (
+              <tr key={row._id} className='border'>
+                <td className='py-3 pl-3'>{row.shop.name}</td>
+                <td className='py-3'>{row.shop.shopCode}</td>
+                <td className='py-3'>{row.totalAmount}</td>
+                <td className='py-3'>
+                  {new Date(row.cycleDate).toLocaleDateString("th-TH")}
+                </td>
+                <td className='py-3'>
+                  {new Date(row.payDate).toLocaleDateString("th-TH")}
+                </td>
+                <td className='w-20'>
+                  <SettingButton
+                    viewOption
+                    editOption
+                    deleteOption
+                    deleteFunction={() => handleDeleteCashBack(row._id)}
+                  />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} className='text-center py-3'>
+                No cash back available
+              </td>
+            </tr>
+          )
+        ) : (
+          <tr>
+            <td colSpan={5} className='text-center py-3'>
+              Loading ...
             </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   )

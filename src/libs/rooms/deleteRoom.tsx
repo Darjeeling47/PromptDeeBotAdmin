@@ -1,10 +1,9 @@
-export default async function getCashBacks(token: string, query: string) {
+export default async function deleteRoom(token: string, rid: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/cash-back${query ? "?" + query : ""}`,
+    `${process.env.BACKEND_URL}/api/v1/rooms/${rid}`,
     {
-      method: "GET",
+      method: "DELETE",
       headers: { authorization: `Bearer ${token}` },
-      cache: "no-store",
     }
   )
 

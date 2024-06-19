@@ -1,10 +1,9 @@
-export default async function getCashBacks(token: string, query: string) {
+export default async function deleteCashBack(token: string, cbid: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/cash-back${query ? "?" + query : ""}`,
+    `${process.env.BACKEND_URL}/api/v1/cash-back/${cbid}`,
     {
-      method: "GET",
+      method: "DELETE",
       headers: { authorization: `Bearer ${token}` },
-      cache: "no-store",
     }
   )
 

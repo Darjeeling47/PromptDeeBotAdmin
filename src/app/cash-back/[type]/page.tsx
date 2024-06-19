@@ -17,8 +17,10 @@ export default function Shop({ params }: { params: { type: string } }) {
   }
 
   // handle title
-  const title = params.type === "create" ? "สร้างร้านค้า" : "แก้ไขร้านค้า"
-  const submitText = params.type === "create" ? "สร้างร้านค้า" : "แก้ไขร้านค้า"
+  const title =
+    params.type === "create" ? "สร้างโอนคืนส่วนลด" : "แก้ไขโอนคืนส่วนลด"
+  const submitText =
+    params.type === "create" ? "สร้างโอนคืนส่วนลด" : "แก้ไขโอนคืนส่วนลด"
 
   // all data required
   const [excelFile, setExcelFile] = useState<File | null>(null)

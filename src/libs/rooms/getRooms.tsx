@@ -1,6 +1,6 @@
-export default async function getCashBacks(token: string, query: string) {
+export default async function getRooms(token: string, query?: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/cash-back${query ? "?" + query : ""}`,
+    `${process.env.BACKEND_URL}/api/v1/rooms${query ? "?" + query : ""}`,
     {
       method: "GET",
       headers: { authorization: `Bearer ${token}` },
