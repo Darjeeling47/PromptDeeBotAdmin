@@ -1,8 +1,8 @@
-export default async function deleteShop(token: string, sid: string) {
+export default async function getShop(token: string, sid: string) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/v1/shops/${sid}`,
     {
-      method: "DELETE",
+      method: "GET",
       headers: { authorization: `Bearer ${token}` },
     }
   )

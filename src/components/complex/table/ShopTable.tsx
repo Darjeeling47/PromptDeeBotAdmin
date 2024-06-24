@@ -6,6 +6,7 @@ import { Shop } from "@/interface/shop"
 import deleteShop from "@/libs/shops/deleteShop"
 import { Session, getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { useRouter } from "next/navigation"
 
 export default function ShopTable({
   shops,
@@ -16,9 +17,15 @@ export default function ShopTable({
   available?: boolean
   session: Session
 }) {
+  const router = useRouter()
+
   const handleDeleteShop = async (sid: string) => {
     await deleteShop(session.user.token, sid)
     alert("ลบข้อมูลแล้วกรุณารีเพจ")
+  }
+
+  const handleEditShop = async (sid: string) => {
+    router.push(`/shop/edit?sid=${sid}`)
   }
 
   return (
@@ -46,6 +53,7 @@ export default function ShopTable({
                     editOption
                     deleteOption
                     deleteFunction={() => handleDeleteShop(row._id)}
+                    editFunction={() => handleEditShop(row._id)}
                   />
                 </td>
               </tr>

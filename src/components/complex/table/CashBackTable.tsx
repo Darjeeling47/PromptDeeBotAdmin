@@ -3,6 +3,7 @@ import SettingButton from "../button/SettingButton"
 import { CashBack } from "@/interface/cashBack"
 import { Session } from "next-auth"
 import deleteCashBack from "@/libs/cashBacks/deleteCashBack"
+import { redirect, useRouter } from "next/navigation"
 
 export default function CashBackTable({
   cashBacks,
@@ -13,9 +14,15 @@ export default function CashBackTable({
   available?: boolean
   session: Session
 }) {
+  const router = useRouter()
+
   const handleDeleteCashBack = async (cbid: string) => {
     await deleteCashBack(session.user.token, cbid)
     alert("ลบข้อมูลแล้วกรุณารีเพจ")
+  }
+
+  const handleViewCashBack = async (cbid: string) => {
+    router.replace("/cash-back/view/" + cbid)
   }
 
   return (
@@ -47,9 +54,9 @@ export default function CashBackTable({
                 <td className='w-20'>
                   <SettingButton
                     viewOption
-                    editOption
                     deleteOption
                     deleteFunction={() => handleDeleteCashBack(row._id)}
+                    viewFunction={() => handleViewCashBack(row._id)}
                   />
                 </td>
               </tr>

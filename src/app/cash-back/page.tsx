@@ -100,7 +100,7 @@ export default function CashBack() {
             size='medium'
             variant='extended'
             className='!z-[0]'>
-            สร้างใบเสร็จ<i className='bi bi-plus-lg text-xl ml-2'></i>
+            สร้างการแจ้งเตือน<i className='bi bi-plus-lg text-xl ml-2'></i>
           </Fab>
         </Link>
       </div>

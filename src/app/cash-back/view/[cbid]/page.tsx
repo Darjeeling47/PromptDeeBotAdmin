@@ -8,18 +8,50 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import Link from "next/link"
 import CashBackShopList from "@/components/complex/list/CashBackShopList"
 import CashBackDetailTable from "@/components/complex/table/CashBackDetailTable"
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
+import getCashBack from "@/libs/cashBacks/getCashBack"
+import { use, useEffect, useState } from "react"
+import { CashBackFull } from "@/interface/cashBack"
 
-export default function CashBack() {
+export default function CashBack({ params }: { params: { cbid: string } }) {
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
+
+  const cashBackId = params.cbid
+  const [cashBack, setCashBack] = useState<CashBackFull>()
+  const [available, setAvaliable] = useState(false)
+
+  const fetchCashBack = async () => {
+    setAvaliable(false)
+    const cashBackFromFetch = (
+      await getCashBack(session.user.token, cashBackId)
+    ).cashBack
+    setCashBack(cashBackFromFetch)
+    setAvaliable(true)
+  }
+
+  useEffect(() => {
+    fetchCashBack()
+  }, [])
+
   return (
     <main className='w-full flex flex-col space-y-10'>
       {/* Header */}
       <div className='font-semibold text-3xl mt-10'>โอนคืนส่วนลด</div>
 
       {/* cashback shop list */}
-      <CashBackShopList />
+      {cashBack ? <CashBackShopList cashBack={cashBack} /> : ""}
 
       {/* cashback table */}
-      <CashBackDetailTable />
+      {cashBack ? <CashBackDetailTable orders={cashBack?.orders} /> : ""}
+
+      <Button variant='contained' color='primary' className='mt-10 w-full'>
+        แจ้งเตือนซ้ำ
+      </Button>
     </main>
   )
 }

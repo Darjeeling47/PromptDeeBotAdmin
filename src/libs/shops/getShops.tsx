@@ -9,7 +9,8 @@ export default async function getShops(token: string, query?: string) {
   )
 
   if (!response.ok) {
-    throw new Error("Cannot fetch shops")
+    alert("Cannot fetch shops")
+    return null
   }
 
   return await response.json()

@@ -17,6 +17,18 @@ export interface CashBack {
   shop: Shop
 }
 
+export interface CashBackFull {
+  _id: string
+  shopId: string
+  shopName: string
+  shopCode: string
+  cycleDate: Date
+  payDate: Date
+  totalAmount: number
+  orders: Order[]
+  uploadDate: Date
+}
+
 export interface CashBackJson {
   count: number
   pagination: {

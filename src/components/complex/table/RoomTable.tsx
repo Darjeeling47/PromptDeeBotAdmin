@@ -38,7 +38,6 @@ export default function RoomTable({
                 <td className='py-3'>{row.shops.shopCode}</td>
                 <td className='w-20'>
                   <SettingButton
-                    editOption
                     deleteOption
                     deleteFunction={() => handleDeleteRoom(row._id)}
                   />

@@ -3,12 +3,22 @@
 import SelectCreateOption from "@/components/complex/button/SelectCreateOption"
 import getProvinces from "@/libs/thaidatas/getProvinces"
 import { Autocomplete, Button, TextField } from "@mui/material"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { use, useEffect, useState } from "react"
 import { styled } from "@mui/material/styles"
+import createShop from "@/libs/shops/createShop"
+import { useSession } from "next-auth/react"
+import createShops from "@/libs/shops/createShops"
+import getShop from "@/libs/shops/getShop"
 
 export default function Shop({ params }: { params: { type: string } }) {
   const router = useRouter()
+
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
 
   // handle with type of page
   if (params.type !== "create" && params.type !== "edit") {
@@ -19,6 +29,9 @@ export default function Shop({ params }: { params: { type: string } }) {
   // handle title
   const title = params.type === "create" ? "สร้างร้านค้า" : "แก้ไขร้านค้า"
   const submitText = params.type === "create" ? "สร้างร้านค้า" : "แก้ไขร้านค้า"
+
+  const urlParams = useSearchParams()
+  const paramsSid = urlParams.get("sid")
 
   // all data required
   const [excelFile, setExcelFile] = useState<File | null>(null)
@@ -46,8 +59,40 @@ export default function Shop({ params }: { params: { type: string } }) {
     )
   }
 
-  // fetch provinces
+  const fetchShop = async () => {
+    if (paramsSid) {
+      const shopFromFetch = (await getShop(session.user.token, paramsSid)).shop
+      if (shopFromFetch) {
+        setShopName(shopFromFetch.name)
+        setShopCode(shopFromFetch.shopCode)
+        const fetchedProvinces = (await getProvinces()).map((element: any) => ({
+          id: element.id,
+          name: element.name_th,
+        }))
+        setProvincesList(fetchedProvinces)
+        let currentProvince = fetchedProvinces.find(
+          (province: optionType) => province.name === shopFromFetch.province
+        )
+        setProvince(currentProvince)
+        setScore(shopFromFetch.score)
+      } else {
+        router.back()
+      }
+    } else {
+      router.back()
+    }
+  }
+
+  // fetch data
   useEffect(() => {
+    if (params.type === "edit") {
+      if (paramsSid) {
+        // fetch shop data
+        fetchShop()
+      } else {
+        router.back()
+      }
+    }
     fetchProvinces()
   }, [])
 
@@ -63,6 +108,33 @@ export default function Shop({ params }: { params: { type: string } }) {
     whiteSpace: "nowrap",
     width: 1,
   })
+
+  const handleCreateShop = async () => {
+    if (option == "manual") {
+      if (shopName && shopCode && province && score) {
+        const newShop = {
+          name: shopName,
+          shopCode: shopCode,
+          province: province.name,
+          score: score,
+        }
+        await createShop(session.user.token, newShop)
+
+        router.push("/shop")
+      } else {
+        alert("โปรดใส่ข้อมูลให้ครบถ้วน")
+      }
+    } else {
+      if (excelFile) {
+        const formData = new FormData()
+        formData.append("excelFile", excelFile)
+        await createShops(session.user.token, formData)
+        router.push("/shop")
+      } else {
+        alert("โปรดใส่ข้อมูลให้ครบถ้วน")
+      }
+    }
+  }
 
   return (
     <main className='text-center w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
@@ -88,6 +160,7 @@ export default function Shop({ params }: { params: { type: string } }) {
               onChange={(e) => {
                 setShopName(e.target.value)
               }}
+              value={shopName}
             />
             <TextField
               id='outlined-basic'
@@ -97,6 +170,7 @@ export default function Shop({ params }: { params: { type: string } }) {
               onChange={(e) => {
                 setShopCode(e.target.value)
               }}
+              value={shopCode}
             />
             <Autocomplete
               disablePortal
@@ -113,6 +187,7 @@ export default function Shop({ params }: { params: { type: string } }) {
               renderInput={(params) => (
                 <TextField {...params} label='จังหวัด' className='w-full' />
               )}
+              value={province}
             />
             <TextField
               id='outlined-basic'
@@ -122,6 +197,7 @@ export default function Shop({ params }: { params: { type: string } }) {
               onChange={(e) => {
                 setScore(parseInt(e.target.value))
               }}
+              value={score}
             />
           </div>
         ) : (
@@ -148,7 +224,11 @@ export default function Shop({ params }: { params: { type: string } }) {
       </div>
 
       {/* Submit */}
-      <Button variant='contained' color='primary' className='mt-10 w-full'>
+      <Button
+        variant='contained'
+        color='primary'
+        className='mt-10 w-full'
+        onClick={handleCreateShop}>
         {submitText}
       </Button>
     </main>
