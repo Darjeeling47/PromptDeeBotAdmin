@@ -1,8 +1,9 @@
-import NextAuth, { AuthOptions } from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import login from "@/libs/users/login"
 import getMe from "@/libs/users/getMe"
+import { AuthOptions } from "next-auth"
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -12,7 +13,7 @@ export const authOptions: AuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) return null
 
         const user = await login(credentials.email, credentials.password)
