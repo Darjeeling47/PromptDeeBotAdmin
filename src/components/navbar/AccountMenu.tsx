@@ -36,9 +36,9 @@ export default function AccountMenu() {
             {session ? (
               <>
                 <hr></hr>
-                <Link href={"#"} className='px-7'>
+                {/* <Link href={"#"} className='px-7'>
                   <i className='bi bi-gear-fill mr-2'></i>Setting
-                </Link>
+                </Link> */}
                 <div
                   className='px-7'
                   onClick={() => signOut({ callbackUrl: "/login" })}>

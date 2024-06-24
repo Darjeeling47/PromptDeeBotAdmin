@@ -13,6 +13,7 @@ import { redirect } from "next/navigation"
 import getCashBack from "@/libs/cashBacks/getCashBack"
 import { use, useEffect, useState } from "react"
 import { CashBackFull } from "@/interface/cashBack"
+import createCashBacksNoti from "@/libs/cashBacks/createCashBackNoti"
 
 export default function CashBack({ params }: { params: { cbid: string } }) {
   const { data: session } = useSession()
@@ -38,6 +39,10 @@ export default function CashBack({ params }: { params: { cbid: string } }) {
     fetchCashBack()
   }, [])
 
+  const handleSendNotification = async () => {
+    await createCashBacksNoti(session.user.token, cashBackId)
+  }
+
   return (
     <main className='w-full flex flex-col space-y-10'>
       {/* Header */}
@@ -49,7 +54,11 @@ export default function CashBack({ params }: { params: { cbid: string } }) {
       {/* cashback table */}
       {cashBack ? <CashBackDetailTable orders={cashBack?.orders} /> : ""}
 
-      <Button variant='contained' color='primary' className='mt-10 w-full'>
+      <Button
+        variant='contained'
+        color='primary'
+        className='mt-10 w-full'
+        onClick={handleSendNotification}>
         แจ้งเตือนซ้ำ
       </Button>
     </main>
