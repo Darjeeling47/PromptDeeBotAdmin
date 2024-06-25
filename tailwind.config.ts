@@ -27,7 +27,7 @@ const config: Config = {
         sky: colors.sky,
         blue: colors.blue,
         indigo: colors.indigo,
-        voilet: colors.voilet,
+        violet: colors.violet,
         purple: colors.purple,
         fuchsia: colors.fuchsia,
         pink: colors.pink,
