@@ -1,9 +1,7 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
+import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-
 import login from "@/libs/users/login"
 import getMe from "@/libs/users/getMe"
-import { AuthOptions } from "next-auth"
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -16,13 +14,18 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null
 
-        const user = await login(credentials.email, credentials.password)
+        try {
+          const user = await login(credentials.email, credentials.password)
 
-        if (user) {
-          const userData = await getMe(user.token)
-          const returnedUser = { ...user, ...userData.data }
-          return returnedUser
-        } else {
+          if (user) {
+            const userData = await getMe(user.token)
+            const returnedUser = { ...user, ...userData.user }
+            return returnedUser
+          } else {
+            return null
+          }
+        } catch (error) {
+          console.error("Error in authorize:", error)
           return null
         }
       },
@@ -51,4 +54,5 @@ export const authOptions: AuthOptions = {
 }
 
 const handler = NextAuth(authOptions)
+
 export { handler as GET, handler as POST }
