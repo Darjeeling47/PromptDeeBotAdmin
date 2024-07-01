@@ -1,17 +1,13 @@
 "use client"
 
-import SelectCreateOption from "@/components/complex/button/SelectCreateOption"
-import getProvinces from "@/libs/thaidatas/getProvinces"
-import { Autocomplete, Button, TextField } from "@mui/material"
-import { redirect, useRouter } from "next/navigation"
-import { use, useEffect, useState } from "react"
-import { styled } from "@mui/material/styles"
+import createAnnouncements from "@/libs/announcement/createAnnouncements"
+import { Button } from "@mui/material"
 import { useSession } from "next-auth/react"
-import createCashBacks from "@/libs/cashBacks/createCashBacks"
+import { redirect } from "next/navigation"
+import { useState } from "react"
+import styled from "styled-components"
 
-export default function CashBack() {
-  const router = useRouter()
-
+export default function Announcement() {
   const { data: session } = useSession()
   if (!session || !session.user.token) {
     redirect("/login")
@@ -19,11 +15,28 @@ export default function CashBack() {
   }
 
   // handle title
-  const title = "สร้างโอนคืนส่วนลด"
-  const submitText = "สร้างโอนคืนส่วนลด"
+  const title = "สร้างการแจ้งเตือน"
+  const submitText = "สร้างการแจ้งเตือน"
 
   // all data required
   const [excelFile, setExcelFile] = useState<File | null>(null)
+
+  const handleCreateAnnouncement = async () => {
+    if (confirm("คุณต้องการสร้างการแจ้งเตือนใช่หรือไม่?") == false) {
+      return
+    }
+
+    if (!excelFile) {
+      alert("กรุณาเลือกไฟล์ excel")
+      return
+    } else {
+      // create announcement
+      const formData = new FormData()
+      formData.append("excelFile", excelFile)
+      const response = await createAnnouncements(session.user.token, formData)
+      alert("สำเร็จแล้ว")
+    }
+  }
 
   // visually hidden input
   const VisuallyHiddenInput = styled("input")({
@@ -37,23 +50,6 @@ export default function CashBack() {
     whiteSpace: "nowrap",
     width: 1,
   })
-
-  const handleCreateCashBack = async () => {
-    if (confirm("คุณต้องการสร้างโอนคืนส่วนลดใช่หรือไม่?") == false) {
-      return
-    }
-
-    if (!excelFile) {
-      alert("กรุณาเลือกไฟล์ excel")
-      return
-    } else {
-      // create cash back
-      const formData = new FormData()
-      formData.append("excelFile", excelFile)
-      const response = createCashBacks(session.user.token, formData)
-      router.push("/cash-back")
-    }
-  }
 
   return (
     <main className='text-center w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
@@ -87,7 +83,7 @@ export default function CashBack() {
         variant='contained'
         color='primary'
         className='mt-10 w-full'
-        onClick={handleCreateCashBack}>
+        onClick={handleCreateAnnouncement}>
         {submitText}
       </Button>
     </main>

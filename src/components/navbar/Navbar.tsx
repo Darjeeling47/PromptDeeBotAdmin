@@ -37,6 +37,9 @@ export default function Navbar() {
           <NavItem href='/cash-back' pathName={pathName}>
             Cash back
           </NavItem>
+          <NavItem href='/announcement' pathName={pathName}>
+            Announcement
+          </NavItem>
           <AccountMenu />
         </div>
       </div>
@@ -81,6 +84,9 @@ export default function Navbar() {
               <hr className='my-2' />
               <NavItem href='/cash-back' pathName={pathName}>
                 Cash back
+              </NavItem>
+              <NavItem href='/announcement' pathName={pathName}>
+                Announcement
               </NavItem>
             </div>
           </div>
