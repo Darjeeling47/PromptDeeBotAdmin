@@ -195,7 +195,7 @@ export default function Shop({ params }: { params: { type: string } }) {
               variant='outlined'
               className='w-full'
               onChange={(e) => {
-                setScore(parseInt(e.target.value))
+                setScore(e.target.value ? parseInt(e.target.value) : 0)
               }}
               value={score}
             />
