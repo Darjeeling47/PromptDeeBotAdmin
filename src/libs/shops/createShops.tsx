@@ -11,7 +11,7 @@ export default async function createShops(token: string, shopData: FormData) {
   )
 
   if (!response.ok) {
-    alert("Cannot create shops " + (await response.json()).message)
+    alert((await response.json()).message)
     return null
   }
 

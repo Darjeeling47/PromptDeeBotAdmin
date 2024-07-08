@@ -12,6 +12,7 @@ export default async function createCashBacks(
   )
 
   if (!response.ok) {
+    alert((await response.json()).message)
     throw new Error("Cannot create cash-backs")
   }
 

@@ -1,5 +1,6 @@
 "use client"
 
+import AnnouncementDescription from "@/components/complex/description/AnnouncementDescription"
 import createAnnouncements from "@/libs/announcement/createAnnouncements"
 import { Button } from "@mui/material"
 import { useSession } from "next-auth/react"
@@ -52,8 +53,10 @@ export default function Announcement() {
   })
 
   return (
-    <main className='text-center w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
+    <main className='w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
       <h1 className='font-semibold text-3xl my-10'>{title}</h1>
+
+      <AnnouncementDescription />
 
       {/* Create Shop */}
       <div className='my-10'>

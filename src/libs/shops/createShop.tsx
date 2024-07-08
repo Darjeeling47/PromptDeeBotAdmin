@@ -17,7 +17,7 @@ export default async function createShop(
   })
 
   if (!response.ok) {
-    alert("Cannot create shops " + (await response.json()).message)
+    alert("สร้างร้านค้าไม่สำเร็จ")
     return null
   }
 

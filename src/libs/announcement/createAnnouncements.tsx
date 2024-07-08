@@ -12,7 +12,7 @@ export default async function createAnnouncements(
   )
 
   if (!response.ok) {
-    alert("สร้างไม่สำเร็จ")
+    alert((await response.json()).message)
     throw new Error("Cannot create announcement")
   }
 

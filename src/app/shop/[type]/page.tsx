@@ -10,6 +10,7 @@ import createShop from "@/libs/shops/createShop"
 import { useSession } from "next-auth/react"
 import createShops from "@/libs/shops/createShops"
 import getShop from "@/libs/shops/getShop"
+import ShopDescription from "@/components/complex/description/ShopDescription"
 
 export default function Shop({ params }: { params: { type: string } }) {
   const router = useRouter()
@@ -110,6 +111,10 @@ export default function Shop({ params }: { params: { type: string } }) {
   })
 
   const handleCreateShop = async () => {
+    if (confirm("คุณต้องการสร้าง/แก้ไขร้านค้าใช่หรือไม่?") == false) {
+      return
+    }
+
     if (option == "manual") {
       if (shopName && shopCode && province && score) {
         const newShop = {
@@ -202,6 +207,10 @@ export default function Shop({ params }: { params: { type: string } }) {
           </div>
         ) : (
           <div className='text-left space-y-2'>
+            {/* Description */}
+            <ShopDescription />
+
+            {/* Excel Upload */}
             <h2 className='font-medium text-lg'>ไฟล์ excel</h2>
             <Button
               component='label'
@@ -227,7 +236,7 @@ export default function Shop({ params }: { params: { type: string } }) {
       <Button
         variant='contained'
         color='primary'
-        className='mt-10 w-full'
+        className='mt-6 w-full'
         onClick={handleCreateShop}>
         {submitText}
       </Button>

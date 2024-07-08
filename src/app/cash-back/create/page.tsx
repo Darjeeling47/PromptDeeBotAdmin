@@ -8,6 +8,7 @@ import { use, useEffect, useState } from "react"
 import { styled } from "@mui/material/styles"
 import { useSession } from "next-auth/react"
 import createCashBacks from "@/libs/cashBacks/createCashBacks"
+import CashBackDescription from "@/components/complex/description/CashBackDescription"
 
 export default function CashBack() {
   const router = useRouter()
@@ -62,6 +63,8 @@ export default function CashBack() {
       {/* Create Shop */}
       <div className='my-10'>
         <div className='text-left space-y-2'>
+          <CashBackDescription />
+
           <h2 className='font-medium text-lg'>ไฟล์ excel</h2>
           <Button
             component='label'
