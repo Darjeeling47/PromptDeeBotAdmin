@@ -4,9 +4,11 @@ import AnnouncementDescription from "@/components/complex/description/Announceme
 import createAnnouncements from "@/libs/announcement/createAnnouncements"
 import { Button } from "@mui/material"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 import { redirect } from "next/navigation"
 import { useState } from "react"
 import styled from "styled-components"
+import styles from "./styles.module.css"
 
 export default function Announcement() {
   const { data: session } = useSession()
@@ -55,6 +57,15 @@ export default function Announcement() {
   return (
     <main className='w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
       <h1 className='font-semibold text-3xl my-10'>{title}</h1>
+
+      <Link href='/announcement/create-template'>
+        <div
+          className={`p-5 my-10 w-full flex items-center justify-center text-2xl ${styles.gradientborder}`}>
+          สร้างการแจ้งเตือนเอง
+        </div>
+      </Link>
+
+      <hr className='mb-10' />
 
       <AnnouncementDescription />
 
