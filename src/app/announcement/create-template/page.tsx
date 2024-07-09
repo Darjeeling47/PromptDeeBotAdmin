@@ -1,6 +1,7 @@
 "use client"
 
 import DetailForm from "@/components/complex/flexMessageTools/DetailForm"
+import FlexGenerator from "@/components/complex/flexMessageTools/FlexGenerator"
 import StructureList from "@/components/complex/flexMessageTools/StructureList"
 import { colors } from "@mui/material"
 import Image from "next/image"
@@ -26,6 +27,7 @@ export default function AnnouncementCreatetor() {
       align: "center",
       color: "#4b5563",
       seperator: false,
+      bold: false,
     },
   ])
 
@@ -54,7 +56,14 @@ export default function AnnouncementCreatetor() {
             height={0}
             sizes='100vw'
             className='w-full h-full z-[-1] absolute'></Image>
-          <div className='z-[1]'>{/* Components */}</div>
+          <div className='flex flex-col p-5 justify-center items-center h-full w-full z-[1]'>
+            <FlexGenerator
+              contents={contents}
+              setContents={setContents}
+              focusContentId={focusContentId}
+              setFocusContentId={setFocusContentId}
+            />
+          </div>
         </div>
         <div className='border border-gray-400 rounded-xl overflow-scroll min-h-96 max-h-[35rem]'>
           <StructureList

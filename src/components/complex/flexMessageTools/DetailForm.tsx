@@ -88,20 +88,20 @@ export default function DetailForm({
     },
   ]
 
-  const [content, setContent] = useState(contents[focusContentId])
-  const [text, setText] = useState(content.text)
-  const [type, setType] = useState(content.type)
-  const [align, setAlign] = useState(content.align)
-  const [color, setColor] = useState(content.color)
-  const [seperator, setSeperator] = useState(content.seperator)
+  const [text, setText] = useState(contents[focusContentId].text)
+  const [type, setType] = useState(contents[focusContentId].type)
+  const [align, setAlign] = useState(contents[focusContentId].align)
+  const [color, setColor] = useState(contents[focusContentId].color)
+  const [seperator, setSeperator] = useState(contents[focusContentId].seperator)
+  const [bold, setBold] = useState(contents[focusContentId].bold)
 
   useEffect(() => {
-    setContent(contents[focusContentId])
     setText(contents[focusContentId].text)
     setType(contents[focusContentId].type)
     setAlign(contents[focusContentId].align)
     setColor(contents[focusContentId].color)
     setSeperator(contents[focusContentId].seperator)
+    setBold(contents[focusContentId].bold)
   }, [focusContentId])
 
   useEffect(() => {
@@ -111,14 +111,14 @@ export default function DetailForm({
       align: align,
       color: color,
       seperator: seperator,
+      bold: bold,
     }
-    setContent(newContent)
     setContents(
       contents.map((data, index) =>
         index === focusContentId ? newContent : data
       )
     )
-  }, [text, type, align, color, seperator])
+  }, [text, type, align, color, seperator, bold])
 
   return (
     <div className='flex flex-col space-y-5 p-5'>
@@ -194,6 +194,22 @@ export default function DetailForm({
           value={seperator}
           onChange={(event: SelectChangeEvent) => {
             setSeperator(event.target.value)
+          }}>
+          <MenuItem value={"true"}>TRUE</MenuItem>
+          <MenuItem value={"false"}>FALSE</MenuItem>
+        </Select>
+      </FormControl>
+
+      {/* bold */}
+      <FormControl fullWidth>
+        <InputLabel id='bold-lable'>ตัวหนา</InputLabel>
+        <Select
+          labelId='bold-lable'
+          id='bold'
+          label='ตัวหนา'
+          value={bold}
+          onChange={(event: SelectChangeEvent) => {
+            setBold(event.target.value)
           }}>
           <MenuItem value={"true"}>TRUE</MenuItem>
           <MenuItem value={"false"}>FALSE</MenuItem>
