@@ -7,6 +7,7 @@ import {
 } from "@mui/material"
 
 export default function DetailForm() {
+  // Data for selector
   const selectType = [
     "header",
     "5xl",
@@ -74,7 +75,7 @@ export default function DetailForm() {
   ]
 
   return (
-    <div className='flex flex-col space-y-5 p-10'>
+    <div className='flex flex-col space-y-5 p-5'>
       {/* text */}
       <TextField id='text' label='ข้อความ' variant='outlined' />
 
@@ -112,8 +113,8 @@ export default function DetailForm() {
       <FormControl fullWidth>
         <InputLabel id='seperator-lable'>เส้นแบ่ง</InputLabel>
         <Select labelId='seperator-lable' id='seperator' label='เส้นแบ่ง'>
-          <MenuItem value={true}>TRUE</MenuItem>
-          <MenuItem value={false}>FALSE</MenuItem>
+          <MenuItem value={"true"}>TRUE</MenuItem>
+          <MenuItem value={"false"}>FALSE</MenuItem>
         </Select>
       </FormControl>
     </div>
