@@ -56,7 +56,7 @@ export default function AnnouncementCreatetor() {
             height={0}
             sizes='100vw'
             className='w-full h-full z-[-1] absolute'></Image>
-          <div className='flex flex-col p-5 justify-center items-center h-full w-full z-[1]'>
+          <div className='flex p-10 justify-center h-full w-full z-[1] content-start overflow-scroll'>
             <FlexGenerator
               contents={contents}
               setContents={setContents}

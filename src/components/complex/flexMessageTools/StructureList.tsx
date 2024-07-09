@@ -67,9 +67,9 @@ export default function StructureList({
   }
 
   return (
-    <div className='flex flex-col w-full p-5 space-y-5 overflow-auto'>
+    <div className='flex flex-col w-full p-5 space-y-5'>
       {/* Nav Bar */}
-      <div className='w-full rounded-lg bg-gray-200 flex flex-row justify-between p-3'>
+      <div className='w-full rounded-lg bg-gray-200 flex flex-row justify-between p-3 sticky top-3'>
         <div className='flex flex-row space-x-3'>
           <button
             className='rounded-full hover:bg-white transition-all duration-200 w-7 h-7 flex items-center justify-center'

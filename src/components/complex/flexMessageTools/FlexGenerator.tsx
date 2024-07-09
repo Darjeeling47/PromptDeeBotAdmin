@@ -17,14 +17,16 @@ export default function FlexGenerator({
   setFocusContentId: Function
 }) {
   return (
-    <div className='flex flex-col rounded-2xl bg-white w-64 overflow-hidden'>
+    <div className='flex flex-col rounded-2xl bg-white w-64 overflow-visible h-fit'>
       {/* Display header as top with the background that full the with the header will be set in contents*/}
 
-      {contents
-        .filter((content) => content.type === "header")
-        .map((content) => (
-          <FlexHeader content={content} />
-        ))}
+      <div className='rounded-t-2xl overflow-clip'>
+        {contents
+          .filter((content) => content.type === "header")
+          .map((content) => (
+            <FlexHeader content={content} />
+          ))}
+      </div>
 
       {/* Display the content that order by user */}
       {contents.map((content, index) => {
