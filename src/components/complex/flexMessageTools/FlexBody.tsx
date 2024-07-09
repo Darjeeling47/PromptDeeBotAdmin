@@ -9,7 +9,7 @@ export default function FlexBody({ content }: { content: any }) {
         content.bold == "true" ? "font-bold" : "font-normal"
       }`}>
       {content.text}
-      {content.seperator && <hr className='mt-2'></hr>}
+      {content.seperator == "true" && <hr className='mt-2'></hr>}
     </div>
   )
 }

@@ -7,7 +7,7 @@ export default function FlexButton({ content }: { content: any }) {
         }`}>
         {content.type != "link" ? content.text : "กดดูเลย"}
       </div>
-      {content.seperator && <hr className='mt-2'></hr>}
+      {content.seperator == "true" && <hr className='mt-2'></hr>}
     </div>
   )
 }
