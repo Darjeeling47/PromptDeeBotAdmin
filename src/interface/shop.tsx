@@ -3,7 +3,6 @@ export interface Shop {
   name: string
   shopCode: string
   province: string
-  score: number
 }
 
 export interface ShopJson {

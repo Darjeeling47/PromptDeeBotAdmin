@@ -39,7 +39,6 @@ export default function Shop({ params }: { params: { type: string } }) {
   const [shopName, setShopName] = useState<string>("")
   const [shopCode, setShopCode] = useState<string>("")
   const [province, setProvince] = useState<optionType | null>(null)
-  const [score, setScore] = useState<number | null>(null)
 
   // option to create shop
   const [option, setOption] = useState<"excel" | "manual">("manual")
@@ -75,7 +74,6 @@ export default function Shop({ params }: { params: { type: string } }) {
           (province: optionType) => province.name === shopFromFetch.province
         )
         setProvince(currentProvince)
-        setScore(shopFromFetch.score)
       } else {
         router.back()
       }
@@ -116,12 +114,11 @@ export default function Shop({ params }: { params: { type: string } }) {
     }
 
     if (option == "manual") {
-      if (shopName && shopCode && province && score) {
+      if (shopName && shopCode && province) {
         const newShop = {
           name: shopName,
           shopCode: shopCode,
           province: province.name,
-          score: score,
         }
         await createShop(session.user.token, newShop)
 
@@ -193,16 +190,6 @@ export default function Shop({ params }: { params: { type: string } }) {
                 <TextField {...params} label='จังหวัด' className='w-full' />
               )}
               value={province}
-            />
-            <TextField
-              id='outlined-basic'
-              label='คะแนนร้านค้า'
-              variant='outlined'
-              className='w-full'
-              onChange={(e) => {
-                setScore(e.target.value ? parseInt(e.target.value) : 0)
-              }}
-              value={score}
             />
           </div>
         ) : (

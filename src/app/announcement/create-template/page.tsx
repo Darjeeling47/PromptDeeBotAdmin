@@ -3,10 +3,11 @@
 import DetailForm from "@/components/complex/flexMessageTools/DetailForm"
 import FlexGenerator from "@/components/complex/flexMessageTools/FlexGenerator"
 import StructureList from "@/components/complex/flexMessageTools/StructureList"
-import { colors } from "@mui/material"
+import { Button, colors, TextField } from "@mui/material"
 import Image from "next/image"
 import { sep } from "path"
 import { useEffect, useState } from "react"
+import styles from "./styles.module.css"
 
 /*
 content = {
@@ -82,6 +83,39 @@ export default function AnnouncementCreatetor() {
           />
         </div>
       </div>
+
+      <div className='flex flex-row justify-between gap-3'>
+        <div
+          className={`p-3 w-full flex items-center justify-center text-lg ${styles.gradientborder}`}>
+          บันทึกรูปแบบ
+        </div>
+        <div
+          className={`p-3 w-full flex items-center justify-center text-lg ring-[3px] ring-gray-400 hover:bg-gray-400 transition-all duration-200 rounded-xl`}>
+          นำออกเป็น excel
+        </div>
+      </div>
+
+      <hr></hr>
+
+      <div className='flex justify-center my-10 w-full'>
+        <TextField
+          id='outlined-multiline-flexible'
+          label='รหัสร้านค้า'
+          className='w-full'
+          multiline
+          maxRows={5}
+        />
+      </div>
+
+      {/* Submit */}
+      <Button
+        variant='contained'
+        color='primary'
+        className='mt-10 w-full'
+        size='large'
+        onClick={() => {}}>
+        สร้างการแจ้งเตือน
+      </Button>
     </main>
   )
 }

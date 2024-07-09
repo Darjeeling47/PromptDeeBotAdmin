@@ -4,7 +4,6 @@ export default async function createShop(
     name: string
     shopCode: string
     province: string
-    score: number
   }
 ) {
   const response = await fetch(`${process.env.BACKEND_URL}/api/v1/shops`, {
