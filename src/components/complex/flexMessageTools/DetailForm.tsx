@@ -125,7 +125,7 @@ export default function DetailForm({
       {/* text */}
       <TextField
         id='text'
-        label='ข้อความ'
+        label='ข้อความ/ลิ้งค์'
         variant='outlined'
         value={text}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,11 +169,11 @@ export default function DetailForm({
 
       {/* color */}
       <FormControl fullWidth>
-        <InputLabel id='color-lable'>สีข้อความ</InputLabel>
+        <InputLabel id='color-lable'>สีข้อความ/พื้นหลัง</InputLabel>
         <Select
           labelId='color-lable'
           id='color'
-          label='สีข้อความ'
+          label='สีข้อความ/พื้นหลัง'
           value={color}
           onChange={(event: SelectChangeEvent) => {
             setColor(event.target.value)

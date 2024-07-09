@@ -56,7 +56,7 @@ export default function AnnouncementCreatetor() {
             height={0}
             sizes='100vw'
             className='w-full h-full z-[-1] absolute'></Image>
-          <div className='flex p-10 justify-center h-full w-full z-[1] content-start overflow-scroll'>
+          <div className='flex p-10 justify-center h-full w-full z-[1] content-start overflow-y-scroll'>
             <FlexGenerator
               contents={contents}
               setContents={setContents}
@@ -65,7 +65,7 @@ export default function AnnouncementCreatetor() {
             />
           </div>
         </div>
-        <div className='border border-gray-400 rounded-xl overflow-scroll min-h-96 max-h-[35rem]'>
+        <div className='border border-gray-400 rounded-xl overflow-y-scroll min-h-96 max-h-[35rem]'>
           <StructureList
             contents={contents}
             setContents={setContents}
