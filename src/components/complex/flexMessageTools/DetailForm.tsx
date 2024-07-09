@@ -1,12 +1,26 @@
+"use client"
+
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material"
+import { useEffect, useState } from "react"
 
-export default function DetailForm() {
+export default function DetailForm({
+  contents,
+  setContents,
+  focusContentId,
+  setFocusContentId,
+}: {
+  contents: any[]
+  setContents: Function
+  focusContentId: number
+  setFocusContentId: Function
+}) {
   // Data for selector
   const selectType = [
     "header",
@@ -74,15 +88,62 @@ export default function DetailForm() {
     },
   ]
 
+  const [content, setContent] = useState(contents[focusContentId])
+  const [text, setText] = useState(content.text)
+  const [type, setType] = useState(content.type)
+  const [align, setAlign] = useState(content.align)
+  const [color, setColor] = useState(content.color)
+  const [seperator, setSeperator] = useState(content.seperator)
+
+  useEffect(() => {
+    setContent(contents[focusContentId])
+    setText(contents[focusContentId].text)
+    setType(contents[focusContentId].type)
+    setAlign(contents[focusContentId].align)
+    setColor(contents[focusContentId].color)
+    setSeperator(contents[focusContentId].seperator)
+  }, [focusContentId])
+
+  useEffect(() => {
+    const newContent = {
+      text: text,
+      type: type,
+      align: align,
+      color: color,
+      seperator: seperator,
+    }
+    setContent(newContent)
+    setContents(
+      contents.map((data, index) =>
+        index === focusContentId ? newContent : data
+      )
+    )
+  }, [text, type, align, color, seperator])
+
   return (
     <div className='flex flex-col space-y-5 p-5'>
       {/* text */}
-      <TextField id='text' label='ข้อความ' variant='outlined' />
+      <TextField
+        id='text'
+        label='ข้อความ'
+        variant='outlined'
+        value={text}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setText(event.target.value)
+        }}
+      />
 
       {/* type */}
       <FormControl fullWidth>
         <InputLabel id='type-lable'>รูปแบบ</InputLabel>
-        <Select labelId='type-lable' id='type' label='รูปแบบ'>
+        <Select
+          labelId='type-lable'
+          id='type'
+          label='รูปแบบ'
+          value={type}
+          onChange={(event: SelectChangeEvent) => {
+            setType(event.target.value)
+          }}>
           {selectType.map((type) => (
             <MenuItem value={type}>{type}</MenuItem>
           ))}
@@ -92,9 +153,16 @@ export default function DetailForm() {
       {/* align */}
       <FormControl fullWidth>
         <InputLabel id='align-lable'>ตำแหน่ง</InputLabel>
-        <Select labelId='align-lable' id='align' label='ตำแหน่ง'>
-          {selectAlign.map((type) => (
-            <MenuItem value={type}>{type}</MenuItem>
+        <Select
+          labelId='align-lable'
+          id='align'
+          label='ตำแหน่ง'
+          value={align}
+          onChange={(event: SelectChangeEvent) => {
+            setAlign(event.target.value)
+          }}>
+          {selectAlign.map((align) => (
+            <MenuItem value={align}>{align}</MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -102,9 +170,16 @@ export default function DetailForm() {
       {/* color */}
       <FormControl fullWidth>
         <InputLabel id='color-lable'>สีข้อความ</InputLabel>
-        <Select labelId='color-lable' id='color' label='สีข้อความ'>
-          {selectColor.map((type) => (
-            <MenuItem value={type.hex}>{type.name}</MenuItem>
+        <Select
+          labelId='color-lable'
+          id='color'
+          label='สีข้อความ'
+          value={color}
+          onChange={(event: SelectChangeEvent) => {
+            setColor(event.target.value)
+          }}>
+          {selectColor.map((color) => (
+            <MenuItem value={color.hex}>{color.name}</MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -112,7 +187,14 @@ export default function DetailForm() {
       {/* seperatoe */}
       <FormControl fullWidth>
         <InputLabel id='seperator-lable'>เส้นแบ่ง</InputLabel>
-        <Select labelId='seperator-lable' id='seperator' label='เส้นแบ่ง'>
+        <Select
+          labelId='seperator-lable'
+          id='seperator'
+          label='เส้นแบ่ง'
+          value={seperator}
+          onChange={(event: SelectChangeEvent) => {
+            setSeperator(event.target.value)
+          }}>
           <MenuItem value={"true"}>TRUE</MenuItem>
           <MenuItem value={"false"}>FALSE</MenuItem>
         </Select>
