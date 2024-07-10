@@ -17,7 +17,7 @@ export default function FlexGenerator({
   setFocusContentId: Function
 }) {
   return (
-    <div className='flex flex-col rounded-2xl bg-white w-64 overflow-visible h-fit'>
+    <div className='flex flex-col rounded-2xl bg-white w-72 overflow-visible h-fit pb-1'>
       {/* Display header as top with the background that full the with the header will be set in contents*/}
 
       <div className='rounded-t-2xl overflow-clip'>
