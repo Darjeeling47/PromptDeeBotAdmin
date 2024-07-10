@@ -1,16 +1,16 @@
-export default async function createAnnouncementExcel(
+export default async function createAnnouncementBoardcast(
   token: string,
-  contents: string
+  data: string
 ) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/announcements/convert-to-excel`,
+    `${process.env.BACKEND_URL}/api/v1/announcements/boardcast`,
     {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: contents,
+      body: data,
     }
   )
 
@@ -19,5 +19,5 @@ export default async function createAnnouncementExcel(
     throw new Error("Cannot create announcement")
   }
 
-  return response
+  return response.json()
 }

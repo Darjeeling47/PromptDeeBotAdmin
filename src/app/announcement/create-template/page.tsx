@@ -10,6 +10,7 @@ import styles from "./styles.module.css"
 import createAnnouncementExcel from "@/libs/announcement/createAnnouncementExcel"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
+import createAnnouncementBoardcast from "@/libs/announcement/creatAnnouncementBoardcast"
 
 /*
 content = {
@@ -39,6 +40,8 @@ export default function AnnouncementCreatetor() {
       weight: "regular",
     },
   ])
+  const [shopsCode, setShopsCeode] = useState("")
+  const [shopCodeList, setShopCodeList] = useState<string[]>([])
 
   const handleConvertToExcel = async () => {
     const response = await createAnnouncementExcel(
@@ -60,6 +63,31 @@ export default function AnnouncementCreatetor() {
       alert("ไม่สามารถสร้างไฟล์ได้")
     }
   }
+
+  const handleCreateAnnouncement = async () => {
+    if (confirm("คุณต้องการสร้างการแจ้งเตือนใช่หรือไม่?") == false) {
+      return
+    }
+
+    const data = {
+      shopsCode: shopCodeList,
+      contents: contents,
+    }
+
+    const response = await createAnnouncementBoardcast(
+      session.user.token,
+      JSON.stringify(data)
+    )
+
+    if (response.success) {
+      alert("สร้างการแจ้งเตือนสำเร็จ")
+    }
+  }
+
+  useEffect(() => {
+    const newShopCodeList = shopsCode.split("\n").map((shopCode) => shopCode)
+    setShopCodeList(newShopCodeList)
+  }, [shopsCode])
 
   return (
     <main className='mx-auto w-full flex flex-col space-y-5'>
@@ -134,6 +162,8 @@ export default function AnnouncementCreatetor() {
           className='w-full'
           multiline
           maxRows={5}
+          value={shopsCode}
+          onChange={(e) => setShopsCeode(e.target.value)}
         />
       </div>
 
@@ -143,7 +173,7 @@ export default function AnnouncementCreatetor() {
         color='primary'
         className='mt-10 w-full'
         size='large'
-        onClick={() => {}}>
+        onClick={handleCreateAnnouncement}>
         สร้างการแจ้งเตือน
       </Button>
     </main>
