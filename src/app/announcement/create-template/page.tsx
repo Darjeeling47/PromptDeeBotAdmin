@@ -5,9 +5,11 @@ import FlexGenerator from "@/components/complex/flexMessageTools/FlexGenerator"
 import StructureList from "@/components/complex/flexMessageTools/StructureList"
 import { Button, colors, TextField } from "@mui/material"
 import Image from "next/image"
-import { sep } from "path"
 import { useEffect, useState } from "react"
 import styles from "./styles.module.css"
+import createAnnouncementExcel from "@/libs/announcement/createAnnouncementExcel"
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
 
 /*
 content = {
@@ -20,6 +22,12 @@ content = {
 */
 
 export default function AnnouncementCreatetor() {
+  const { data: session } = useSession()
+  if (!session || !session.user.token) {
+    redirect("/login")
+    return null
+  }
+
   const [focusContentId, setFocusContentId] = useState<number>(0)
   const [contents, setContents] = useState([
     {
@@ -28,9 +36,30 @@ export default function AnnouncementCreatetor() {
       align: "center",
       color: "#4b5563",
       seperator: false,
-      bold: false,
+      weight: "regular",
     },
   ])
+
+  const handleConvertToExcel = async () => {
+    const response = await createAnnouncementExcel(
+      session.user.token,
+      JSON.stringify(contents)
+    )
+
+    try {
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute("download", "announcement.xlsx") // or any other extension
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      alert("สร้างไฟล์สำเร็จ")
+    } catch (e) {
+      alert("ไม่สามารถสร้างไฟล์ได้")
+    }
+  }
 
   return (
     <main className='mx-auto w-full flex flex-col space-y-5'>
@@ -90,7 +119,8 @@ export default function AnnouncementCreatetor() {
           บันทึกรูปแบบ
         </div>
         <div
-          className={`p-3 w-full flex items-center justify-center text-lg ring-[3px] ring-gray-400 hover:bg-gray-400 transition-all duration-200 rounded-xl`}>
+          className={`p-3 w-full flex items-center justify-center text-lg ring-[3px] ring-gray-400 hover:bg-gray-400 transition-all duration-200 rounded-xl`}
+          onClick={handleConvertToExcel}>
           นำออกเป็น excel
         </div>
       </div>

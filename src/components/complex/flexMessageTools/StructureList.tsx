@@ -18,7 +18,7 @@ export default function StructureList({
       align: "start",
       color: "#000000",
       seperator: false,
-      bold: false,
+      weight: "regular",
     }
 
     setContents([...contents, newContent])

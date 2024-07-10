@@ -93,7 +93,7 @@ export default function DetailForm({
   const [align, setAlign] = useState(contents[focusContentId].align)
   const [color, setColor] = useState(contents[focusContentId].color)
   const [seperator, setSeperator] = useState(contents[focusContentId].seperator)
-  const [bold, setBold] = useState(contents[focusContentId].bold)
+  const [weight, setWeight] = useState(contents[focusContentId].weight)
 
   useEffect(() => {
     setText(contents[focusContentId].text)
@@ -101,7 +101,7 @@ export default function DetailForm({
     setAlign(contents[focusContentId].align)
     setColor(contents[focusContentId].color)
     setSeperator(contents[focusContentId].seperator)
-    setBold(contents[focusContentId].bold)
+    setWeight(contents[focusContentId].weight)
   }, [focusContentId])
 
   useEffect(() => {
@@ -111,14 +111,14 @@ export default function DetailForm({
       align: align,
       color: color,
       seperator: seperator,
-      bold: bold,
+      weight: weight,
     }
     setContents(
       contents.map((data, index) =>
         index === focusContentId ? newContent : data
       )
     )
-  }, [text, type, align, color, seperator, bold])
+  }, [text, type, align, color, seperator, weight])
 
   return (
     <div className='flex flex-col space-y-5 p-5'>
@@ -207,12 +207,12 @@ export default function DetailForm({
           labelId='bold-lable'
           id='bold'
           label='ตัวหนา'
-          value={bold}
+          value={weight}
           onChange={(event: SelectChangeEvent) => {
-            setBold(event.target.value)
+            setWeight(event.target.value)
           }}>
-          <MenuItem value={"true"}>TRUE</MenuItem>
-          <MenuItem value={"false"}>FALSE</MenuItem>
+          <MenuItem value={"bold"}>TRUE</MenuItem>
+          <MenuItem value={"regular"}>FALSE</MenuItem>
         </Select>
       </FormControl>
     </div>
