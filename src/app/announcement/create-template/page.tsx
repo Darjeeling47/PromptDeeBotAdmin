@@ -9,8 +9,10 @@ import { useEffect, useState } from "react"
 import styles from "./styles.module.css"
 import createAnnouncementExcel from "@/libs/announcement/createAnnouncementExcel"
 import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation"
+import { redirect, useSearchParams } from "next/navigation"
 import createAnnouncementBoardcast from "@/libs/announcement/creatAnnouncementBoardcast"
+import getAnnouncementTemplate from "@/libs/announcement/getAnnouncementTemplate"
+import createAnnouncementTemplate from "@/libs/announcement/createAnnouncementFormat"
 
 /*
 content = {
@@ -29,6 +31,9 @@ export default function AnnouncementCreatetor() {
     return null
   }
 
+  const urlParams = useSearchParams()
+  const paramAid = urlParams.get("aid")
+
   const [focusContentId, setFocusContentId] = useState<number>(0)
   const [contents, setContents] = useState([
     {
@@ -42,6 +47,21 @@ export default function AnnouncementCreatetor() {
   ])
   const [shopsCode, setShopsCeode] = useState("")
   const [shopCodeList, setShopCodeList] = useState<string[]>([])
+  const [name, setName] = useState("")
+
+  useEffect(() => {
+    if (paramAid) {
+      const fetchAnnouncement = async () => {
+        const response = await getAnnouncementTemplate(
+          session.user.token,
+          paramAid
+        )
+
+        setContents(response.announcement.contents)
+      }
+      fetchAnnouncement()
+    }
+  }, [])
 
   const handleConvertToExcel = async () => {
     const response = await createAnnouncementExcel(
@@ -81,6 +101,31 @@ export default function AnnouncementCreatetor() {
 
     if (response.success) {
       alert("สร้างการแจ้งเตือนสำเร็จ")
+    }
+  }
+
+  const handleSaveAnnouncement = async () => {
+    if (confirm("คุณต้องการบันทึกแจ้งเตือนใช่หรือไม่?") == false) {
+      return
+    }
+
+    if (!contents || !name) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน")
+      return
+    }
+
+    const data = {
+      name: name,
+      contents: contents,
+    }
+
+    const response = await createAnnouncementTemplate(
+      session.user.token,
+      JSON.stringify(data)
+    )
+
+    if (response.success) {
+      alert("บันทึกการแจ้งเตือนสำเร็จ")
     }
   }
 
@@ -141,9 +186,20 @@ export default function AnnouncementCreatetor() {
         </div>
       </div>
 
+      <div className='flex justify-center my-10 w-full'>
+        <TextField
+          id='outlined-multiline-flexible'
+          label='ชื่อการแจ้งเตือน'
+          className='w-full'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+
       <div className='flex flex-row justify-between gap-3'>
         <div
-          className={`p-3 w-full flex items-center justify-center text-lg ${styles.gradientborder}`}>
+          className={`p-3 w-full flex items-center justify-center text-lg ${styles.gradientborder}`}
+          onClick={handleSaveAnnouncement}>
           บันทึกรูปแบบ
         </div>
         <div

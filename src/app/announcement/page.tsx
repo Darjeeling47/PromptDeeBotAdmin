@@ -6,9 +6,11 @@ import { Button } from "@mui/material"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import styles from "./styles.module.css"
+import getAnnouncementTemplates from "@/libs/announcement/getAnnouncementTemplates"
+import AnnouncementBox from "@/components/complex/announcement/AnnouncementBox"
 
 export default function Announcement() {
   const { data: session } = useSession()
@@ -17,89 +19,56 @@ export default function Announcement() {
     return null
   }
 
-  // handle title
-  const title = "สร้างการแจ้งเตือน"
-  const submitText = "สร้างการแจ้งเตือน"
+  const [announcementTemplate, setAnnouncementTemplate] = useState<any>([])
 
-  // all data required
-  const [excelFile, setExcelFile] = useState<File | null>(null)
-
-  const handleCreateAnnouncement = async () => {
-    if (confirm("คุณต้องการสร้างการแจ้งเตือนใช่หรือไม่?") == false) {
-      return
-    }
-
-    if (!excelFile) {
-      alert("กรุณาเลือกไฟล์ excel")
-      return
-    } else {
-      // create announcement
-      const formData = new FormData()
-      formData.append("excelFile", excelFile)
-      const response = await createAnnouncements(session.user.token, formData)
-      alert("สำเร็จแล้ว")
-    }
+  const fetchAnnouncementTemplate = async () => {
+    const newAnnouncementTemplate = await getAnnouncementTemplates(
+      session.user.token
+    )
+    setAnnouncementTemplate(newAnnouncementTemplate.announcements)
   }
 
-  // visually hidden input
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  })
+  useEffect(() => {
+    fetchAnnouncementTemplate()
+  }, [])
 
   return (
-    <main className='w-full mx-auto md:w-2/3 lg:w-1/2 xl:w-1/3/'>
-      <h1 className='font-semibold text-3xl my-10'>{title}</h1>
+    <main className='w-full'>
+      {/* Header */}
+      <div className='font-semibold text-3xl my-10'>การแจ้งเตือน</div>
 
-      <Link href='/announcement/create-template'>
-        <div
-          className={`p-5 my-10 w-full flex items-center justify-center text-2xl ${styles.gradientborder}`}>
-          สร้างการแจ้งเตือนเอง
-        </div>
-      </Link>
-
-      <hr className='mb-10' />
-
-      <AnnouncementDescription />
-
-      {/* Create Shop */}
-      <div className='my-10'>
-        <div className='text-left space-y-2'>
-          <h2 className='font-medium text-lg'>ไฟล์ excel</h2>
-          <Button
-            component='label'
-            variant='contained'
-            role={undefined}
-            color='success'
-            className='w-full'
-            tabIndex={-1}
-            startIcon={<i className='bi bi-cloud-arrow-up-fill'></i>}>
-            {excelFile ? excelFile.name : "เลือกไฟล์ excel"}
-            <VisuallyHiddenInput
-              type='file'
-              onChange={(e) =>
-                setExcelFile(e.target.files ? e.target.files[0] : null)
-              }
-            />
-          </Button>
-        </div>
+      {/* Navigate Button */}
+      <div className='flex flex-row space-x-10'>
+        <Link href='/announcement/create-template' className='w-full'>
+          <div
+            className={`p-3 w-full flex items-center justify-center text-lg ${styles.gradientborder}`}>
+            สร้างการแจ้งเตือนเอง
+          </div>
+        </Link>
+        <Link href='/announcement/create' className='w-full'>
+          <div
+            className={`p-3 w-full flex items-center justify-center text-lg ring-[3px] ring-gray-400 hover:bg-gray-400 transition-all duration-200 rounded-xl`}>
+            สร้างการแจ้งเตือนแบบ EXCEL
+          </div>
+        </Link>
       </div>
 
-      {/* Submit */}
-      <Button
-        variant='contained'
-        color='primary'
-        className='mt-10 w-full'
-        onClick={handleCreateAnnouncement}>
-        {submitText}
-      </Button>
+      {/* Template */}
+      <div className='font-semibold text-xl my-10'>
+        การแจ้งเตือนเริ่มต้นให้เลือก
+      </div>
+
+      <div className='w-full grid grid-cols-3 gap-5 place-content-stretch'>
+        {announcementTemplate.map((template: any) => {
+          return (
+            <AnnouncementBox
+              id={template._id}
+              name={template.name}
+              contents={template.contents}
+            />
+          )
+        })}
+      </div>
     </main>
   )
 }

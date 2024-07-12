@@ -12,9 +12,9 @@ export default function FlexGenerator({
   setFocusContentId,
 }: {
   contents: any[]
-  setContents: Function
-  focusContentId: number
-  setFocusContentId: Function
+  setContents?: Function
+  focusContentId?: number
+  setFocusContentId?: Function
 }) {
   return (
     <div className='flex flex-col rounded-2xl bg-white w-72 overflow-visible h-fit pb-1'>

@@ -1,9 +1,9 @@
-export default async function createAnnouncementBoardcast(
+export default async function createAnnouncementTemplate(
   token: string,
-  data: string 
+  data: string
 ) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/v1/announcements/boardcast`,
+    `${process.env.BACKEND_URL}/api/v1/announcements/templates`,
     {
       method: "POST",
       headers: {
