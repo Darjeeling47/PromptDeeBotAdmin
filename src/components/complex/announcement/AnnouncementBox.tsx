@@ -39,7 +39,7 @@ export default function AnnouncementBox({
             height={0}
             sizes='100vw'
             className='w-full h-full z-[-1] absolute '></Image>
-          <div className='pt-10'>
+          <div className='flex items-start pt-5'>
             <FlexGenerator contents={contents}></FlexGenerator>
           </div>
         </div>
