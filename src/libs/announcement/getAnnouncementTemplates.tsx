@@ -10,7 +10,7 @@ export default async function getAnnouncementTemplates(token: string) {
 
   if (!response.ok) {
     alert((await response.json()).message)
-    throw new Error("Cannot create announcement")
+    throw new Error("Cannot gets announcement")
   }
 
   return response.json()

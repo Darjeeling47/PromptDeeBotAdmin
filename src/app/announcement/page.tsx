@@ -65,6 +65,7 @@ export default function Announcement() {
               id={template._id}
               name={template.name}
               contents={template.contents}
+              token={session.user.token}
             />
           )
         })}
