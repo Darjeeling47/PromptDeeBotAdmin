@@ -23,8 +23,12 @@ export default function FlexGenerator({
       <div className='rounded-t-2xl overflow-clip'>
         {contents
           .filter((content) => content.type === "header")
-          .map((content) => (
-            <FlexHeader content={content} />
+          .map((content, index) => (
+            <FlexHeader
+              content={content}
+              id={index}
+              focusContentId={focusContentId}
+            />
           ))}
       </div>
 
@@ -32,10 +36,29 @@ export default function FlexGenerator({
       {contents.map((content, index) => {
         if (content.type === "header") return
         else if (content.type === "link")
-          return <FlexButton content={content} />
+          return (
+            <FlexButton
+              content={content}
+              id={index}
+              focusContentId={focusContentId}
+            />
+          )
         else if (content.type === "action")
-          return <FlexButton content={content} />
-        else return <FlexBody content={content} />
+          return (
+            <FlexButton
+              content={content}
+              id={index}
+              focusContentId={focusContentId}
+            />
+          )
+        else
+          return (
+            <FlexBody
+              content={content}
+              id={index}
+              focusContentId={focusContentId}
+            />
+          )
       })}
     </div>
   )

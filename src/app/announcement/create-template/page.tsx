@@ -151,7 +151,7 @@ export default function AnnouncementCreatetor() {
       </div>
 
       <div className='w-full grid grid-cols-3 gap-5 place-content-stretch'>
-        <div className='border border-gray-400 rounded-xl overflow-hidden relative min-h-96 max-h-[35rem]'>
+        <div className='border border-gray-400 rounded-xl overflow-hidden relative h-[35rem]'>
           <Image
             src={"/image/line_background.png"}
             alt='line background'
@@ -168,7 +168,7 @@ export default function AnnouncementCreatetor() {
             />
           </div>
         </div>
-        <div className='border border-gray-400 rounded-xl overflow-y-scroll min-h-96 max-h-[35rem]'>
+        <div className='border border-gray-400 rounded-xl overflow-y-scroll h-[35rem]'>
           <StructureList
             contents={contents}
             setContents={setContents}
@@ -176,7 +176,7 @@ export default function AnnouncementCreatetor() {
             setFocusContentId={setFocusContentId}
           />
         </div>
-        <div className='border border-gray-400 rounded-xl min-h-96 max-h-[35rem]'>
+        <div className='border border-gray-400 rounded-xl h-[35rem]'>
           <DetailForm
             contents={contents}
             setContents={setContents}
@@ -184,6 +184,12 @@ export default function AnnouncementCreatetor() {
             setFocusContentId={setFocusContentId}
           />
         </div>
+      </div>
+
+      <hr></hr>
+
+      <div className='font-semibold text-xl my-10'>
+        บันทึกรูปแบบการแจ้งเตือน
       </div>
 
       <div className='flex justify-center my-10 w-full'>
@@ -210,6 +216,8 @@ export default function AnnouncementCreatetor() {
       </div>
 
       <hr></hr>
+
+      <div className='font-semibold text-xl my-10'>ส่งการแจ้งเตือน</div>
 
       <div className='flex justify-center my-10 w-full'>
         <TextField

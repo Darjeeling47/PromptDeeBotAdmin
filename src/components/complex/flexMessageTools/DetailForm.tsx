@@ -121,7 +121,7 @@ export default function DetailForm({
   }, [text, type, align, color, seperator, weight])
 
   return (
-    <div className='flex flex-col space-y-5 p-5'>
+    <div className='flex flex-col space-y-5 p-5 h-full'>
       {/* text */}
       <TextField
         id='text'
@@ -151,21 +151,25 @@ export default function DetailForm({
       </FormControl>
 
       {/* align */}
-      <FormControl fullWidth>
-        <InputLabel id='align-lable'>ตำแหน่ง</InputLabel>
-        <Select
-          labelId='align-lable'
-          id='align'
-          label='ตำแหน่ง'
-          value={align}
-          onChange={(event: SelectChangeEvent) => {
-            setAlign(event.target.value)
-          }}>
-          {selectAlign.map((align) => (
-            <MenuItem value={align}>{align}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {["header", "link", "action"].includes(type) ? (
+        ""
+      ) : (
+        <FormControl fullWidth>
+          <InputLabel id='align-lable'>ตำแหน่ง</InputLabel>
+          <Select
+            labelId='align-lable'
+            id='align'
+            label='ตำแหน่ง'
+            value={align}
+            onChange={(event: SelectChangeEvent) => {
+              setAlign(event.target.value)
+            }}>
+            {selectAlign.map((align) => (
+              <MenuItem value={align}>{align}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
 
       {/* color */}
       <FormControl fullWidth>
@@ -185,36 +189,44 @@ export default function DetailForm({
       </FormControl>
 
       {/* seperatoe */}
-      <FormControl fullWidth>
-        <InputLabel id='seperator-lable'>เส้นแบ่ง</InputLabel>
-        <Select
-          labelId='seperator-lable'
-          id='seperator'
-          label='เส้นแบ่ง'
-          value={seperator}
-          onChange={(event: SelectChangeEvent) => {
-            setSeperator(event.target.value)
-          }}>
-          <MenuItem value={"true"}>TRUE</MenuItem>
-          <MenuItem value={"false"}>FALSE</MenuItem>
-        </Select>
-      </FormControl>
+      {["header"].includes(type) ? (
+        ""
+      ) : (
+        <FormControl fullWidth>
+          <InputLabel id='seperator-lable'>เส้นแบ่ง</InputLabel>
+          <Select
+            labelId='seperator-lable'
+            id='seperator'
+            label='เส้นแบ่ง'
+            value={seperator}
+            onChange={(event: SelectChangeEvent) => {
+              setSeperator(event.target.value)
+            }}>
+            <MenuItem value={"true"}>TRUE</MenuItem>
+            <MenuItem value={"false"}>FALSE</MenuItem>
+          </Select>
+        </FormControl>
+      )}
 
       {/* bold */}
-      <FormControl fullWidth>
-        <InputLabel id='bold-lable'>ตัวหนา</InputLabel>
-        <Select
-          labelId='bold-lable'
-          id='bold'
-          label='ตัวหนา'
-          value={weight}
-          onChange={(event: SelectChangeEvent) => {
-            setWeight(event.target.value)
-          }}>
-          <MenuItem value={"bold"}>TRUE</MenuItem>
-          <MenuItem value={"regular"}>FALSE</MenuItem>
-        </Select>
-      </FormControl>
+      {["header", "link", "action"].includes(type) ? (
+        ""
+      ) : (
+        <FormControl fullWidth>
+          <InputLabel id='bold-lable'>ตัวหนา</InputLabel>
+          <Select
+            labelId='bold-lable'
+            id='bold'
+            label='ตัวหนา'
+            value={weight}
+            onChange={(event: SelectChangeEvent) => {
+              setWeight(event.target.value)
+            }}>
+            <MenuItem value={"bold"}>TRUE</MenuItem>
+            <MenuItem value={"regular"}>FALSE</MenuItem>
+          </Select>
+        </FormControl>
+      )}
     </div>
   )
 }
